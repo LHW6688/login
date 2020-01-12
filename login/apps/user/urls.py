@@ -1,11 +1,8 @@
-# -*- coding: utf-8 -*-
-'''
-PROJECT_NAME：login 
-FILE:url 
-USERNAME: 李宏伟
-DATE:2020/1/10 
-TIME:下午2:09 
-PRODUCT_NAME:PyCharm 
-'''
+from django.conf.urls import url
 
+from . import views
 
+urlpatterns = [
+	url(r'image_codes/?P<image_code_id>[\w-]+)/', views.ImageCodeView.as_view()),
+	# url('^sms_codes/(?P<mobile>1[3-9]\d{9}/$', views.SMSCodeView.as_view())
+]

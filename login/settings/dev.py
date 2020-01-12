@@ -75,14 +75,14 @@ WSGI_APPLICATION = 'login.wsgi.application'
 
 DATABASES = {
 	'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': '127.0.0.1',  # 数据库主机
-        'PORT': 3306,  # 数据库端口
-        'USER': 'root',  # 数据库用户名
-        'PASSWORD': '12345678',  # 数据库用户密码
-        'NAME': 'users'  # 数据库名字
-
-    }
+		'ENGINE': 'django.db.backends.mysql',
+		'HOST': '127.0.0.1',  # 数据库主机
+		'PORT': 3306,  # 数据库端口
+		'USER': 'root',  # 数据库用户名
+		'PASSWORD': '12345678',  # 数据库用户密码
+		'NAME': 'users'  # 数据库名字
+		
+	}
 }
 
 # Password validation
@@ -122,67 +122,67 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,  # 是否禁用已经存在的日志器
-    'formatters': {  # 日志信息显示的格式
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s line:%(lineno)d %(message)s'
-        },
-        'simple': {
-            'format': '%(levelname)s %(module)s %(lineno)d %(message)s'
-        },
-    },
-    'filters': {  # 对日志进行过滤
-        'require_debug_true': {  # django在debug模式下才输出日志
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
-    },
-    'handlers': {  # 日志处理方法
-        'console': {  # 向终端中输出日志
-            'level': 'INFO',
-            'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
-        },
-        'file': {  # 向文件中输出日志
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(os.path.dirname(BASE_DIR), "logs/login.log"),  # 日志文件的位置
-            'maxBytes': 1024 * 1024 * 5,
-            'backupCount': 10,
-            'formatter': 'verbose'
-        },
-        'error':
-            {
-                'level': 'ERROR',
-                'class': 'logging.handlers.RotatingFileHandler',
-                'filename': os.path.join(os.path.dirname(BASE_DIR), "logs/error_log.log"),
-                'maxBytes': 300 * 1024 * 1024,
-                'backupCount': 5,
-                'formatter': 'verbose',
-            },
-    },
-    'loggers': {  # 日志器
-        'django': {  # 定义了一个名为django的日志器
-            'handlers': ['console', 'file', 'error'],  # 可以同时向终端与文件中输出日志
-            'propagate': True,  # 是否继续传递日志信息
-            'level': 'INFO',  # 日志器接收的最低日志级别
-        },
-    }
+	'version': 1,
+	'disable_existing_loggers': False,  # 是否禁用已经存在的日志器
+	'formatters': {  # 日志信息显示的格式
+		'verbose': {
+			'format': '%(levelname)s %(asctime)s %(module)s line:%(lineno)d %(message)s'
+		},
+		'simple': {
+			'format': '%(levelname)s %(module)s %(lineno)d %(message)s'
+		},
+	},
+	'filters': {  # 对日志进行过滤
+		'require_debug_true': {  # django在debug模式下才输出日志
+			'()': 'django.utils.log.RequireDebugTrue',
+		},
+	},
+	'handlers': {  # 日志处理方法
+		'console': {  # 向终端中输出日志
+			'level': 'INFO',
+			'filters': ['require_debug_true'],
+			'class': 'logging.StreamHandler',
+			'formatter': 'simple'
+		},
+		'file': {  # 向文件中输出日志
+			'level': 'INFO',
+			'class': 'logging.handlers.RotatingFileHandler',
+			'filename': os.path.join(os.path.dirname(BASE_DIR), "logs/login.log"),  # 日志文件的位置
+			'maxBytes': 1024 * 1024 * 5,
+			'backupCount': 10,
+			'formatter': 'verbose'
+		},
+		'error':
+			{
+				'level': 'ERROR',
+				'class': 'logging.handlers.RotatingFileHandler',
+				'filename': os.path.join(os.path.dirname(BASE_DIR), "logs/error_log.log"),
+				'maxBytes': 300 * 1024 * 1024,
+				'backupCount': 5,
+				'formatter': 'verbose',
+			},
+	},
+	'loggers': {  # 日志器
+		'django': {  # 定义了一个名为django的日志器
+			'handlers': ['console', 'file', 'error'],  # 可以同时向终端与文件中输出日志
+			'propagate': True,  # 是否继续传递日志信息
+			'level': 'INFO',  # 日志器接收的最低日志级别
+		},
+	}
 }
 
 # DRF
 REST_FRAMEWORK = {
-    # 异常处理
-    'EXCEPTION_HANDLER': 'login.utils.exceptions.exception_handler',
-    # # JWT
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',  # 会自动调用中间件csrf验证,需添加一个中间件过滤
-        # 'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',  # 必须有
-    ),
+	# 异常处理
+	'EXCEPTION_HANDLER': 'login.utils.exceptions.exception_handler',
+	# # JWT
+	'DEFAULT_AUTHENTICATION_CLASSES': (
+		'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+		# 'rest_framework.authentication.SessionAuthentication',  # 会自动调用中间件csrf验证,需添加一个中间件过滤
+		# 'rest_framework.authentication.BasicAuthentication',
+		'rest_framework.authentication.TokenAuthentication',
+	),
+	'DEFAULT_PERMISSION_CLASSES': (
+		'rest_framework.permissions.IsAuthenticated',  # 必须有
+	),
 }
