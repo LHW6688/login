@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
+import datetime
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -210,14 +210,32 @@ LOGGING = {
 REST_FRAMEWORK = {
 	# 异常处理
 	'EXCEPTION_HANDLER': 'login.utils.exceptions.exception_handler',
-	# # JWT
-	# 'DEFAULT_AUTHENTICATION_CLASSES': (
-	# 	'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-	# 	# 'rest_framework.authentication.SessionAuthentication',  # 会自动调用中间件csrf验证,需添加一个中间件过滤
-	# 	# 'rest_framework.authentication.BasicAuthentication',
-	# 	'rest_framework.authentication.TokenAuthentication',
-	# ),
-	# 'DEFAULT_PERMISSION_CLASSES': (
-	# 	'rest_framework.permissions.IsAuthenticated',  # 必须有
-	# ),
+	# JWT
+	'DEFAULT_AUTHENTICATION_CLASSES': (
+		'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+		# 'rest_framework.authentication.SessionAuthentication',  # 会自动调用中间件csrf验证,需添加一个中间件过滤
+		# 'rest_framework.authentication.BasicAuthentication',
+		'rest_framework.authentication.TokenAuthentication',
+	),
+	'DEFAULT_PERMISSION_CLASSES': (
+		'rest_framework.permissions.IsAuthenticated',  # 必须有
+	),
 }
+
+# CORS添加白名单
+CORS_ORIGIN_WHITELIST = (
+    '127.0.0.1:8080',
+    'localhost:8080',
+    'www.meiduo.site:8080',
+    'api.meiduo.site:8000',
+)
+CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
+# 指明token的有效期
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'users.utils.jwt_response_payload_handler',
+}
+# 配置自定义认证
+AUTHENTICATION_BACKENDS = [
+    'user.utils.UsernameMobileAuthBackend',
+]
