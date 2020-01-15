@@ -1,0 +1,5 @@
+# 图片验证码的有效时间: s
+IMAGE_CODE_REDIS_EXPIRES = 60
+
+# 邮件验证码有效时间是2分钟
+VERIFY_EMAIL_TOKEN_EXPIRES = 60 * 2

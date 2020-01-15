@@ -13,7 +13,13 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import sys
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
+
+# 将`apps`添加到搜索包的路径
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -35,8 +41,10 @@ INSTALLED_APPS = [
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
-	# 'rest_framework',
-	'login.apps.user'
+	'rest_framework',
+	'user',
+	'verifications'
+
 ]
 # 指定Django认证系统使用的用户模型类
 AUTH_USER_MODEL = 'user.User'
@@ -85,6 +93,33 @@ DATABASES = {
 	}
 }
 
+# Redis
+CACHES = {
+	"default": {
+		"BACKEND": "django_redis.cache.RedisCache",
+		"LOCATION": "redis://127.0.0.1:6379/0",
+		"OPTIONS": {
+			"CLIENT_CLASS": "django_redis.client.DefaultClient",
+		}
+	},
+	"session": {
+		"BACKEND": "django_redis.cache.RedisCache",
+		"LOCATION": "redis://127.0.0.1:6379/1",
+		"OPTIONS": {
+			"CLIENT_CLASS": "django_redis.client.DefaultClient",
+		}
+	},
+	"verify_codes": {
+		"BACKEND": "django_redis.cache.RedisCache",
+		"LOCATION": "redis://127.0.0.1:6379/2",
+		"OPTIONS": {
+			"CLIENT_CLASS": "django_redis.client.DefaultClient",
+			"REDIS_CLIENT_KWARGS": {"decode_responses": True}
+		}
+	}
+}
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "session"
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -176,13 +211,13 @@ REST_FRAMEWORK = {
 	# 异常处理
 	'EXCEPTION_HANDLER': 'login.utils.exceptions.exception_handler',
 	# # JWT
-	'DEFAULT_AUTHENTICATION_CLASSES': (
-		'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-		# 'rest_framework.authentication.SessionAuthentication',  # 会自动调用中间件csrf验证,需添加一个中间件过滤
-		# 'rest_framework.authentication.BasicAuthentication',
-		'rest_framework.authentication.TokenAuthentication',
-	),
-	'DEFAULT_PERMISSION_CLASSES': (
-		'rest_framework.permissions.IsAuthenticated',  # 必须有
-	),
+	# 'DEFAULT_AUTHENTICATION_CLASSES': (
+	# 	'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+	# 	# 'rest_framework.authentication.SessionAuthentication',  # 会自动调用中间件csrf验证,需添加一个中间件过滤
+	# 	# 'rest_framework.authentication.BasicAuthentication',
+	# 	'rest_framework.authentication.TokenAuthentication',
+	# ),
+	# 'DEFAULT_PERMISSION_CLASSES': (
+	# 	'rest_framework.permissions.IsAuthenticated',  # 必须有
+	# ),
 }
